@@ -3,9 +3,10 @@ from colors import standard, alternative
 
 
 class Vortex:
-    def __init__(self, pos, circulation):
+    def __init__(self, pos, circulation, velocity=(0, 0)):
         self.pos = pos
         self.circulation = circulation
+        self.velocity = velocity
 
     @property
     def color(self):
@@ -22,7 +23,7 @@ class Vortex:
 
     # The functions to be filled in
 
-    def getVelocity(self, other_pos):
+    def getInducedVelocity(self, other_pos):
         """Get the velocity induced at other_pos by the vortex, as a tuple."""
         x, y = other_pos
         self_x, self_y = self.pos
@@ -35,11 +36,19 @@ class Vortex:
                 self.circulation * (x - self_x) / dsquared,
             )
 
-    def moveVortex(self, vortexArray, timeStep):
-        """Compute the velocity of the vortex, and move it."""
-        # timeStep is how many times we move with the same velocity
-        # each time the method is called.
-        velocity = (0, 0)
+    def computeVelocity(self, vortexArray):
+        """
+        Compute the velocity of the vortex by combining the contributions from
+        all surrounding vortices.
+        """
+        self.velocity = (0, 0)
         for otherVortex in vortexArray:
-            velocity = velocity + np.array(otherVortex.getVelocity(self.pos))
-        self.pos = self.pos + timeStep * np.array(velocity)
+            self.velocity = self.velocity + np.array(
+                otherVortex.getInducedVelocity(self.pos)
+            )
+
+    def move(self, timePeriod):
+        """
+        Move the vortex over the specified time period.
+        """
+        self.pos = self.pos + timePeriod * np.array(self.velocity)

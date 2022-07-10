@@ -45,6 +45,7 @@ def eraseBottomLeft():
 
 
 def eraseFrame():
+    # screen.fill(black)
     pygame.draw.rect(screen, black, screen.get_rect())
 
 
@@ -72,6 +73,7 @@ scrapArray = []  # All the vortices set to be destroyed.
 open = True
 play = False
 textMode = False
+n = 1
 
 window = pygame.display.set_mode((1800, 1000))
 screen = pygame.display.get_surface()
@@ -95,20 +97,18 @@ while open:
         screen.blit(playSymbol, bottomLeft)
         clearFrame(vortexArray)
         scrapArray = []
+        for i in range(n):
+            for vortex in vortexArray:
+                vortex.computeVelocity(vortexArray)
+            for vortex in vortexArray:
+                vortex.move(100 / n)  # maintains framerate
 
-        for vortex in vortexArray:
-            if accurate:
-                for i in range(100):
-                    vortex.moveVortex(vortexArray, 1)
-            else:
-                vortex.moveVortex(vortexArray, 100)
+                if vortex.outOfBounds():
+                    scrapArray.append(vortex)
 
-            if vortex.outOfBounds():
-                scrapArray.append(vortex)
-
-        for vortex in scrapArray:
-            vortexArray.remove(vortex)
-            updateTitleToNumberOfVortices()
+            for vortex in scrapArray:
+                vortexArray.remove(vortex)
+                updateTitleToNumberOfVortices()
         drawVortices(vortexArray)
 
     # Handling user input
@@ -149,6 +149,10 @@ while open:
                     updateTitleToNumberOfVortices()
                 if event.key == K_a:
                     accurate = not accurate
+                    if accurate:
+                        n = 10
+                    else:
+                        n = 1
         elif event.type == MOUSEBUTTONDOWN:
             if event.button == 1 or event.button == 3:
                 if event.button == 1:
