@@ -22,7 +22,7 @@ class Vortex:
 
     # The functions to be filled in
 
-    def getField(self, other_pos):
+    def getVelocity(self, other_pos):
         """Get the velocity induced at other_pos by the vortex, as a tuple."""
         x, y = other_pos
         self_x, self_y = self.pos
@@ -41,5 +41,5 @@ class Vortex:
         # each time the method is called.
         velocity = (0, 0)
         for otherVortex in vortexArray:
-            velocity = velocity + np.array(otherVortex.getField(self.pos))
+            velocity = velocity + np.array(otherVortex.getVelocity(self.pos))
         self.pos = self.pos + timeStep * np.array(velocity)
