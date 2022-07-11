@@ -150,7 +150,7 @@ while open:
                 if event.key == K_a:
                     accurate = not accurate
                     if accurate:
-                        n = 10
+                        n = 20
                     else:
                         n = 1
         elif event.type == MOUSEBUTTONDOWN:

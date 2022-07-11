@@ -8,9 +8,11 @@ class L_System:
         self.saved_positions = []
         self.angle_change = angle_change
         self.turtle = Turtle()
-        self.turtle.pendown
         self.speed = speed
         self.turtle.speed(0)
+
+    def __repr__(self):
+        return self.current_string
 
     def add_rule(self, char, string):
         """
@@ -32,19 +34,6 @@ class L_System:
 
         self.current_string = new_string
 
-    def __repr__(self):
-        return self.current_string
-
-    def save_position(self):
-        """Save the current position of the turtle."""
-        self.saved_positions.append(self.turtle.pos())
-
-    def load_position(self):
-        """Load the most recently saved turtle position."""
-        self.turtle.penup()
-        self.turtle.setpos(self.saved_positions.pop())
-        self.turtle.pendown()
-
     def print(self):
         """
         Convert the current string into Turtle instructions,
@@ -63,6 +52,16 @@ class L_System:
                 self.load_position()
             elif char == "0" or char == "1":
                 self.turtle.forward(self.speed)
+
+    def save_position(self):
+        """Save the current position of the turtle."""
+        self.saved_positions.append(self.turtle.pos())
+
+    def load_position(self):
+        """Load the most recently saved turtle position."""
+        self.turtle.penup()
+        self.turtle.setpos(self.saved_positions.pop())
+        self.turtle.pendown()
 
 
 def square_snowflake():
