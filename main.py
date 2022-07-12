@@ -41,6 +41,7 @@ def drawVortices(vortexArray):
 
 def eraseBottomLeft():
     # Where the play/ pause symbol is
+    bottomLeft = getBottomLeft()
     screen.fill(black, Rect(bottomLeft[0], bottomLeft[1], 50, 50))
 
 
@@ -60,6 +61,10 @@ def updateTitleToNumberOfVortices():
     pygame.display.set_caption(str(len(vortexArray)))
 
 
+def getBottomLeft():
+    return screen.get_rect().bottomleft + np.array((20, -60))
+
+
 pygame.init()
 
 currentCirculation = 1
@@ -75,7 +80,7 @@ play = False
 textMode = False
 n = 1
 
-window = pygame.display.set_mode((1800, 1000))
+window = pygame.display.set_mode((1700, 900), pygame.RESIZABLE)
 screen = pygame.display.get_surface()
 center = screen.get_rect().center
 
@@ -83,7 +88,6 @@ text = ""
 font = pygame.font.SysFont("segoeui", 50)
 playSymbol = pygame.image.load("play.png")
 pauseSymbol = pygame.image.load("pause.png")
-bottomLeft = screen.get_rect().bottomleft + np.array((20, -60))
 
 
 eraseFrame()
@@ -92,9 +96,9 @@ eraseFrame()
 while open:
     eraseBottomLeft()
     if not play:
-        screen.blit(pauseSymbol, bottomLeft)
+        screen.blit(pauseSymbol, getBottomLeft())
     else:
-        screen.blit(playSymbol, bottomLeft)
+        screen.blit(playSymbol, getBottomLeft())
         clearFrame(vortexArray)
         scrapArray = []
         for i in range(n):
