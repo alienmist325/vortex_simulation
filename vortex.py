@@ -24,7 +24,10 @@ class Vortex:
     # The functions to be filled in
 
     def getInducedVelocity(self, otherPos):
-        """Get the velocity induced at other_pos by the vortex, as a tuple."""
+        """
+        Get the velocity contribution that this vortex
+        induces at otherPos, as a tuple.
+        """
         otherX, otherY = otherPos
         selfX, selfY = self.pos
         distSquared = (otherX - selfX) ** 2 + (otherY - selfY) ** 2
@@ -38,8 +41,8 @@ class Vortex:
 
     def computeVelocity(self, vortexArray):
         """
-        Compute the velocity of the vortex by combining the contributions from
-        all surrounding vortices.
+        Compute and set the velocity of this vortex by combining
+        the contributions from all surrounding vortices.
         """
         self.velocity = (0, 0)
         for otherVortex in vortexArray:
@@ -49,6 +52,7 @@ class Vortex:
 
     def move(self, timePeriod):
         """
-        Move the vortex over the specified time period.
+        Move this vortex over the specified time
+        period, updating its position.
         """
         self.pos = self.pos + timePeriod * np.array(self.velocity)
