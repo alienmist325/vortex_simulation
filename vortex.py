@@ -52,6 +52,3 @@ class Vortex:
         Move the vortex over the specified time period.
         """
         self.pos = self.pos + timePeriod * np.array(self.velocity)
-
-
-print((1, 2) * 3)
