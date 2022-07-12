@@ -18,22 +18,22 @@ class Vortex:
 
     def outOfBounds(self):
         """Return whether the vortex has completely left the screen."""
-        self_x, self_y = self.pos
-        return abs(self_x) > 10000 or abs(self_y) > 10000
+        selfX, selfY = self.pos
+        return abs(selfX) > 10000 or abs(selfY) > 10000
 
     # The functions to be filled in
 
-    def getInducedVelocity(self, other_pos):
+    def getInducedVelocity(self, otherPos):
         """Get the velocity induced at other_pos by the vortex, as a tuple."""
-        x, y = other_pos
-        self_x, self_y = self.pos
-        dsquared = (x - self_x) ** 2 + (y - self_y) ** 2
-        if dsquared == 0:
+        otherX, otherY = otherPos
+        selfX, selfY = self.pos
+        distSquared = (otherX - selfX) ** 2 + (otherY - selfY) ** 2
+        if distSquared == 0:
             return (0, 0)
         else:
             return (
-                -self.circulation * (y - self_y) / dsquared,
-                self.circulation * (x - self_x) / dsquared,
+                -self.circulation * (otherY - selfY) / distSquared,
+                self.circulation * (otherX - selfX) / distSquared,
             )
 
     def computeVelocity(self, vortexArray):
@@ -52,3 +52,6 @@ class Vortex:
         Move the vortex over the specified time period.
         """
         self.pos = self.pos + timePeriod * np.array(self.velocity)
+
+
+print((1, 2) * 3)
